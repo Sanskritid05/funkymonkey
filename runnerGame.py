@@ -92,4 +92,4 @@ while True:
     #speed of snail
     clock.tick(60)
 
-   
+   ## CHECKPOINT 6
