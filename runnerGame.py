@@ -15,7 +15,7 @@ test_font = pygame.font.Font('game_font.ttf', 50)
 ground_surf = pygame.image.load('ground2.png') .convert() # convert() :: for efficient use w.r.t pygame  
 
 
-score_surf = test_font.render('My Game' , False , 'Black').convert()
+score_surf = test_font.render('My Game' , False , (64,64,64)).convert()
 score_rect = score_surf.get_rect(center = (350, 50))
 
 
@@ -37,26 +37,17 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-        # if event.type == pygame.MOUSEMOTION:
-        #     print(event.pos)        # prints mouse pos (x,y)
-        # if event.type == pygame.MOUSEBUTTONDOWN :
-        #     print("Button Down")      # prints when button pressed
-
-        # if event.type == pygame.MOUSEBUTTONUP:
-        #     print("Button up")        # prints when button release
-
-        # if event.type == pygame.MOUSEMOTION :
-        #     if player_rect.collidepoint(event.pos) :
-        #         print("Collision")          # prints when above the player character
 
 
     screen.blit(ground_surf, (0, 0))
     #CHECKPOINT 5 --> Drawing with Rectangles
 
+     #CHECKPOINT 6 : Colors
     #draw module
-    pygame.draw.rect(screen , 'Pink' , score_rect)
-    pygame.draw.rect(screen , 'Pink' , score_rect , 15)
-    # pygame.draw.ellipse(screen , 'Brown' , pygame.Rect( ))
+    pygame.draw.rect(screen , '#daf0ff' , score_rect)
+    pygame.draw.rect(screen , '#daf0ff' , score_rect,1)
+
+    
 
 
 
@@ -73,17 +64,9 @@ while True:
     screen.blit(snail_surf, snail_rect)
     screen.blit(player_surf, player_rect)
 
-    #CHECKPOINT 5 --> Collision with Rectangle 
-    # if player_rect.colliderect(snail_rect) :
-    #     print("collision")
-
-    #CHECKPOINT 6 --> Collide Points
+    #CHECKPOINT 5 --> Collision with Rectangle and Collide Points
     mouse_pos = pygame.mouse.get_pos()
-    # if player_rect.collidepoint(mouse_pos) :
-    #     print(pygame.mouse.get_pressed())
 
-
-    # print(player_rect.left)    # rectangle position 80 from left 
     snail_rect.left -= 4 
     
 
@@ -92,4 +75,3 @@ while True:
     #speed of snail
     clock.tick(60)
 
-   ## CHECKPOINT 6
