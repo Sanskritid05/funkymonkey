@@ -56,7 +56,7 @@ while True:
     #draw module
     pygame.draw.rect(screen , 'Pink' , score_rect)
     pygame.draw.rect(screen , 'Pink' , score_rect , 15)
-    pygame.draw.ellipse(screen , 'Brown' , pygame.Rect( ))
+    # pygame.draw.ellipse(screen , 'Brown' , pygame.Rect( ))
 
 
 
