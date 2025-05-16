@@ -37,12 +37,12 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+        
 
 
     screen.blit(ground_surf, (0, 0))
-    #CHECKPOINT 5 --> Drawing with Rectangles
 
-     #CHECKPOINT 6 : Colors
+    #CHECKPOINT 6 : Colors
     #draw module
     pygame.draw.rect(screen , '#daf0ff' , score_rect)
     pygame.draw.rect(screen , '#daf0ff' , score_rect,1)
@@ -57,12 +57,20 @@ while True:
 
     #CHECKPOINT 4 --> Rectangles       ::  for positioning and collisions
 
-    snail_rect.x -= 2 
+    snail_rect.x -= 4 
     if snail_rect.right  <= 0 :
         snail_rect.left = 800
 
     screen.blit(snail_surf, snail_rect)
     screen.blit(player_surf, player_rect)
+
+    # CHECKPOINT 7 --> Keyboard Input
+    # keys = pygame.key.get_pressed()
+    # if keys[pygame.K_SPACE] : print("Jump")
+
+
+
+
 
     #CHECKPOINT 5 --> Collision with Rectangle and Collide Points
     mouse_pos = pygame.mouse.get_pos()
