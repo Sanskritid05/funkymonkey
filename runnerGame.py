@@ -35,6 +35,7 @@ player_surf = pygame.image.load('gameCharacter.png').convert_alpha()
 player_rect = player_surf.get_rect(topleft = (80, 180))
 
 player_gravity = 0
+
 #intro screen
 player_stand  = pygame.image.load('gameCharacter.png').convert_alpha()
 player_stand = pygame.transform.rotozoom(player_stand, 0 , 1)
