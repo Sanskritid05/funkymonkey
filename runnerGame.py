@@ -2,26 +2,52 @@ from matplotlib.font_manager import get_font
 import pygame
 from sys import exit
 
+def display_score():
+    global current_time
+    current_time = int(pygame.time.get_ticks()/1000) - start_time
+    score_surf = test_font.render(f'Score : {current_time}', False , (64, 64, 64))
+    score_rect = score_surf.get_rect(center = (350, 50))
+    screen.blit(score_surf, score_rect)
+    return current_time
+
+
 pygame.init()
 
 # balnk game window (h,w)
 screen = pygame.display.set_mode((720, 490))
-pygame.display.set_caption("Runner Game")
+pygame.display.set_caption("Run Lola Run")
 clock = pygame.time.Clock()
 test_font = pygame.font.Font('game_font.ttf', 50)
+game_active = False
+start_time = 0 
+score = 0 
+
 
 #images : surface : creation
 ground_surf = pygame.image.load('ground2.png') .convert() # convert() :: for efficient use w.r.t pygame  
-score_surf = test_font.render('My Game' , False , (64,64,64)).convert()
-score_rect = score_surf.get_rect(center = (350, 50))
+# score_surf = test_font.render('My Game' , False , (64,64,64)).convert()
+# score_rect = score_surf.get_rect(center = (350, 50))
+
 snail_surf = pygame.image.load('snail(1).png').convert_alpha() # alpha removes unnecessary background
 snail_rect = snail_surf.get_rect(topright = (700,330))
+
 player_surf = pygame.image.load('gameCharacter.png').convert_alpha()
 player_rect = player_surf.get_rect(topleft = (80, 180))
+
 player_gravity = 0
+#intro screen
+player_stand  = pygame.image.load('gameCharacter.png').convert_alpha()
+player_stand = pygame.transform.rotozoom(player_stand, 0 , 1)
+player_stand_rect = player_stand.get_rect(center = (350, 230))
+
+game_name = test_font.render('Run Lola Run' , False , (64, 64, 64)).convert()
+game_name_rect = game_name.get_rect(center = (350 , 100))
+
+game_message = test_font.render('Press <SPACE> to Run' , False , (64, 64, 64)).convert()
+game_message_rect = game_message.get_rect(center = (350 , 400))
 
 #game condition
-game_active = True
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -35,17 +61,19 @@ while True:
             if event.type == pygame.KEYDOWN :
                 if event.key == pygame.K_SPACE and player_rect.bottom >= 450 :
                         player_gravity = -25     
-        else :
+        else:
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE :
                 game_active = True
                 snail_rect.left = 800
+                start_time = int(pygame.time.get_ticks()/1000) - start_time
     
     if game_active : 
         screen.blit(ground_surf, (0, 0)) #sky + ground
-        pygame.draw.rect(screen , '#daf0ff' , score_rect)   #color
-        pygame.draw.rect(screen , '#daf0ff' , score_rect,1)
-        screen.blit(score_surf, score_rect)
+        # pygame.draw.rect(screen , '#daf0ff' , score_rect)   #color
+        # pygame.draw.rect(screen , '#daf0ff' , score_rect,1)
+        # screen.blit(score_surf, score_rect)
+        display_score()
 
         snail_rect.x -= 8 
         if snail_rect.right  <= 0 :
@@ -67,12 +95,13 @@ while True:
             game_active = False #game over
 
     else:
-        screen.fill('Red')
+        screen.fill((94, 129, 164))  
+        screen.blit(player_stand, player_stand_rect)
+        screen.blit(game_name , game_name_rect)
+        screen.blit(game_message , game_message_rect)
             
-
-   
     pygame.display.update() 
     
     #speed of snail
-    clock.tick(60)
+    clock.tick(70)
 
