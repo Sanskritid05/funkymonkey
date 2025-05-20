@@ -3,6 +3,12 @@ import pygame
 from sys import exit
 from random import randint
 
+class Player(pygame.sprite.Sprite):
+    def __int__(self):
+        super().__init__()
+        self.mage = pygame.image.load('character.png').convert_alpha
+        self.rect = self.image.get_rect(midbottom = (200 , 300))
+
 def display_score():
     global current_time
     current_time = int(pygame.time.get_ticks()/1000) - start_time
@@ -24,6 +30,13 @@ def obstacle_movement(obstacle_list):
     else :
         return []
 
+def collisions(player , obstacles) :
+    if obstacles :
+        for obstacle_rect in obstacles:
+            if player.colliderect(obstacle_rect):
+                return False
+    return True
+
 
 pygame.init()
 
@@ -35,6 +48,9 @@ test_font = pygame.font.Font('game_font.ttf', 50)
 game_active = False
 start_time = 0 
 score = 0 
+
+player = pygame.sprite.GroupSingle()
+player.add(Player())
 
 
 #images : surface : creation
@@ -93,12 +109,7 @@ while True:
                 start_time = int(pygame.time.get_ticks() / 1000)
 
         if event.type == obstacle_timer and game_active:
-            if randint(0, 2) : 
-                obstacle_rect_list.append(snail_surf.get_rect(topright = (randint(900, 1100),330)))
-            else :
-                obstacle_rect_list.append(snail_surf.get_rect(topright = (randint(900, 1100),110)))
-
-    
+            obstacle_rect_list.append(snail_surf.get_rect(topright = (randint(900, 1100),330)))
     if game_active : 
         screen.blit(ground_surf, (0, 0)) #sky + ground
         # pygame.draw.rect(screen , '#daf0ff' , score_rect)   #color
@@ -117,6 +128,7 @@ while True:
         #player
         player_gravity += 1 
         player_rect.y += player_gravity
+     
 
         #obstacle movement
         obstacle_rect_list = obstacle_movement(obstacle_rect_list)
@@ -126,12 +138,12 @@ while True:
             player_rect.bottom = 450
         
         #collision 
-        if (snail_rect.colliderect(player_rect)) :
-            game_active = False #game over
+        game_active = collisions(player_rect,obstacle_rect_list)
 
     else:
         screen.fill((94, 129, 164))  
         screen.blit(player_stand, player_stand_rect)
+        obstacle_rect_list.clear()
 
         score_message = test_font.render(f'Your Score :{score}' , False , (64, 64, 64))
         score_message_rect = score_message.get_rect(center = (350 , 400))
